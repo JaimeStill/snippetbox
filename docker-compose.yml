@@ -1,0 +1,12 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: snippetbox-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass123
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./.data/mysql:/var/lib/mysql
+      - ./sql:/opt/sql:ro
+    restart: unless-stopped
