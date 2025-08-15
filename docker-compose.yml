@@ -9,4 +9,5 @@ services:
     volumes:
       - ./.data/mysql:/var/lib/mysql
       - ./sql:/opt/sql:ro
+      - ./mysql-utf8.cnf:/etc/mysql/conf.d/utf8.cnf:ro
     restart: unless-stopped

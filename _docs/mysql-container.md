@@ -44,12 +44,12 @@ docker compose ps
 
 #### As root user
 ```bash
-docker exec -it snippetbox-mysql mysql -uroot -prootpass123
+docker exec -it snippetbox-mysql mysql -uroot -prootpass123 --default-character-set=utf8mb4
 ```
 
 #### As application user
 ```bash
-docker exec -it snippetbox-mysql mysql -uweb -ppass123 snippetbox
+docker exec -it snippetbox-mysql mysql -uweb -ppass123 snippetbox --default-character-set=utf8mb4
 ```
 
 ### Connect from Host Machine
@@ -424,3 +424,97 @@ docker compose up -d
 - [Docker MySQL Official Image](https://hub.docker.com/_/mysql)
 - [MySQL Performance Tuning](https://dev.mysql.com/doc/refman/8.4/en/optimization.html)
 - [MySQL Security Best Practices](https://dev.mysql.com/doc/refman/8.4/en/security.html)
+
+## Appendix: UTF-8 Character Encoding Configuration
+
+### The Problem
+
+When using MySQL in a Docker container, you may encounter character encoding issues where special characters (em dashes, letters with diacritical marks like ō in "Bashō", etc.) display incorrectly. This happens because:
+
+1. The MySQL Docker image defaults to `latin1` character set for client connections
+2. When data is inserted with `latin1` encoding but contains UTF-8 characters, it becomes corrupted ("mojibake")
+3. Even if the database and tables are created with `utf8mb4`, the client connection character set matters during data insertion and retrieval
+
+### Symptoms
+
+Data that looks correct in the database:
+```
+– Matsuo Bashō
+```
+
+Appears corrupted when retrieved:
+```
+â€" Matsuo BashÅ
+```
+
+### Solution: Configure UTF-8 as Default
+
+Create a custom MySQL configuration file to set UTF-8 as the default for all connections:
+
+1. Create `mysql-utf8.cnf` in your project root:
+```ini
+[client]
+default-character-set = utf8mb4
+
+[mysql]
+default-character-set = utf8mb4
+
+[mysqld]
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+init-connect = 'SET NAMES utf8mb4'
+```
+
+2. Mount this configuration in `docker-compose.yml`:
+```yaml
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: snippetbox-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass123
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./.data/mysql:/var/lib/mysql
+      - ./sql:/opt/sql:ro
+      - ./mysql-utf8.cnf:/etc/mysql/conf.d/utf8.cnf:ro  # Add this line
+    restart: unless-stopped
+```
+
+3. Rebuild the container:
+```bash
+docker compose down
+docker compose up -d
+```
+
+### Alternative: Command-Line Flags
+
+If you prefer not to use a configuration file, you can specify the character set when connecting:
+
+```bash
+# Always add --default-character-set=utf8mb4 when connecting
+docker exec -it snippetbox-mysql mysql -uroot -prootpass123 --default-character-set=utf8mb4
+```
+
+However, this must be done for every connection, including when running initialization scripts.
+
+### Verifying Character Set Configuration
+
+After implementing the solution, verify the configuration:
+
+```sql
+-- Check server and client character sets
+SHOW VARIABLES WHERE Variable_name LIKE 'character_set_%' OR Variable_name LIKE 'collation%';
+```
+
+You should see `utf8mb4` for all relevant variables:
+- character_set_client: utf8mb4
+- character_set_connection: utf8mb4
+- character_set_database: utf8mb4
+- character_set_results: utf8mb4
+- character_set_server: utf8mb4
+
+### Note on MySQL Version Differences
+
+The `--skip-character-set-client-handshake` option, which was commonly used in older MySQL versions to force server character set on all clients, was deprecated in MySQL 8.0.35 and **removed in MySQL 8.3.0**. The configuration file approach described above is the recommended solution for MySQL 8.4+.

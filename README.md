@@ -2,6 +2,30 @@
 
 A web application for storing and retrieving code snippets. Companion app for the book [Let's Go](https://lets-go.alexedwards.net/) by [Alex Edwards](https://github.com/alexedwards).
 
+## Quickstart
+
+Assuming [Initialization](#initialization) has been completed:
+
+1. Run the web server:
+
+```sh
+go run ./cmd/web
+```
+
+2. Connect to MySQL:
+
+```sh
+docker exec -it snippetbox-mysql mysql -uweb -ppass snippetbox
+```
+
+Navigate to http://localhost:5000
+
+Test POST:
+
+```sh
+curl -iL -d "" http://localhost:5000/snippet/create
+```
+
 ## MySQL Integration
 
 Instead of directly installing MySQL, I've opted to use a Docker container for the MySQL database. This approach simplifies the setup process and ensures consistency across different development environments.
@@ -92,3 +116,16 @@ Stop and remove the container and delete the volume:
 docker compose down -v
 sudo rm -rf .data/
 ```
+
+## References
+
+Helpful links discovered throughout this book.
+
+- [Alex Edwards Blog](https://www.alexedwards.net/blog)
+- [Tour of Go](https://go.dev/tour/welcome/1)
+- [Go Modules](https://go.dev/wiki/Modules)
+- [Go Standard Library](https://pkg.go.dev/std)
+- [Go Project Layout](https://go.dev/doc/modules/layout)
+- [Go SQL Drivers](https://go.dev/wiki/SQLDrivers)
+- [go-sql-driver/mysql](https://github.com/go-sql-driver/mysql)
+- [Go sql.NullString](https://gist.github.com/alexedwards/dc3145c8e2e6d2fd6cd9)
