@@ -24,7 +24,7 @@ header,
 nav,
 main,
 footer {
-    padding: 2px calc((100% - 800px) / 2) 0;
+    padding: 2px max(12px, calc((100% - 960px) / 2)) 0;
 }
 
 main {
@@ -325,10 +325,13 @@ button:hover {
     color: #6a6c6f;
     padding: 0.75em 18px;
     overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .snippet .metadata span {
-    float: right;
+    align-self: flex-end;
 }
 
 .snippet .metadata strong {
@@ -337,14 +340,6 @@ button:hover {
 
 .snippet .metadata time {
     display: inline-block;
-}
-
-.snippet .metadata time:first-child {
-    float: left;
-}
-
-.snippet .metadata time:last-child {
-    float: right;
 }
 
 div.flash {
