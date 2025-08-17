@@ -132,3 +132,6 @@ Helpful links discovered throughout this book.
 - [Go templates](https://pkg.go.dev/text/template)
 - [OWASP Secure Headers Project](https://owasp.org/www-project-secure-headers/)
 - [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP)
+- [Embedding in Go](https://eli.thegreenplace.net/2020/embedding-in-go-part-1-structs-in-structs/)
+- [Go Generics](https://go.dev/doc/tutorial/generics)
+- [GopherCon 2021 Generics!](https://www.youtube.com/watch?v=Pa_e9EeCdy8)
