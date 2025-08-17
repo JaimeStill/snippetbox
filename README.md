@@ -130,3 +130,5 @@ Helpful links discovered throughout this book.
 - [go-sql-driver/mysql](https://github.com/go-sql-driver/mysql)
 - [Go sql.NullString](https://gist.github.com/alexedwards/dc3145c8e2e6d2fd6cd9)
 - [Go templates](https://pkg.go.dev/text/template)
+- [OWASP Secure Headers Project](https://owasp.org/www-project-secure-headers/)
+- [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP)
