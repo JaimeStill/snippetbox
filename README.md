@@ -129,3 +129,4 @@ Helpful links discovered throughout this book.
 - [Go SQL Drivers](https://go.dev/wiki/SQLDrivers)
 - [go-sql-driver/mysql](https://github.com/go-sql-driver/mysql)
 - [Go sql.NullString](https://gist.github.com/alexedwards/dc3145c8e2e6d2fd6cd9)
+- [Go templates](https://pkg.go.dev/text/template)
