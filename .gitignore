@@ -1,3 +1,6 @@
+# TLS certs
+tls/
+
 # MySQL data directory
 .data/
 

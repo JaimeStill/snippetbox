@@ -26,6 +26,13 @@ Test POST:
 curl -iL -d "" http://localhost:5000/snippet/create
 ```
 
+## Generate TLS Cert
+
+```sh
+# executed in ./tls
+go run /usr/local/go/src/crypto/tls/generate_cert.go --rsa-bits=2048 --host=localhost
+```
+
 ## MySQL Integration
 
 Instead of directly installing MySQL, I've opted to use a Docker container for the MySQL database. This approach simplifies the setup process and ensures consistency across different development environments.
@@ -135,3 +142,6 @@ Helpful links discovered throughout this book.
 - [Embedding in Go](https://eli.thegreenplace.net/2020/embedding-in-go-part-1-structs-in-structs/)
 - [Go Generics](https://go.dev/doc/tutorial/generics)
 - [GopherCon 2021 Generics!](https://www.youtube.com/watch?v=Pa_e9EeCdy8)
+- [Let's Encrypt](https://letsencrypt.org/)
+- [mkcert](https://github.com/FiloSottile/mkcert)
+- [HTTP/2 in Go](https://www.youtube.com/watch?v=FARQMJndUn0)
