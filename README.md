@@ -8,15 +8,15 @@ Assuming [Initialization](#initialization) has been completed:
 
 1. Run the web server:
 
-```sh
-go run ./cmd/web
-```
+  ```sh
+  go run ./cmd/web
+  ```
 
 2. Connect to MySQL:
 
-```sh
-docker exec -it snippetbox-mysql mysql -uweb -ppass snippetbox
-```
+  ```sh
+  docker exec -it snippetbox-mysql mysql -uweb -ppass snippetbox
+  ```
 
 Navigate to http://localhost:5000
 
@@ -37,7 +37,7 @@ go run /usr/local/go/src/crypto/tls/generate_cert.go --rsa-bits=2048 --host=loca
 
 Instead of directly installing MySQL, I've opted to use a Docker container for the MySQL database. This approach simplifies the setup process and ensures consistency across different development environments.
 
-> For comprehensive details on working with the MySQL container and MySQL in general, reference [MySQL Container Documentation](./_docs/mysql-container.md)
+> For comprehensive details on working with the MySQL container and MySQL in general, reference [MySQL Container Documentation](./_docs/mysql-container.md).
 
 The [container configuration](./docker-compose.yml) is setup to persist data in a volume in a `.data` directory at the repository root. It also exposes read-only access to the [`sql`](./sql) directory on `/opt/sql` so that the SQL infrastructure can be initialized directly from the container.
 
